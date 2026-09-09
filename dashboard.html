@@ -1,0 +1,24 @@
+
+{% extends "base.html" %}
+{% block content %}
+<div class="top"><div><h2>لوحة التحكم</h2><p>نظرة عامة على أداء المكتب</p></div></div>
+<div class="cards">
+<div class="card"><span>العملاء</span><strong>{{stats.clients}}</strong></div>
+<div class="card"><span>الملاك</span><strong>{{stats.owners}}</strong></div>
+<div class="card"><span>العقارات</span><strong>{{stats.properties}}</strong></div>
+<div class="card"><span>العقارات المتاحة</span><strong>{{stats.available}}</strong></div>
+<div class="card"><span>الطلبات</span><strong>{{stats.requests}}</strong></div>
+<div class="card"><span>الصفقات</span><strong>{{stats.deals}}</strong></div>
+<div class="card"><span>إجمالي العمولات</span><strong>{{"{:,.0f}".format(stats.commissions)}} ر.س</strong></div>
+<div class="card"><span>المحصّل</span><strong>{{"{:,.0f}".format(stats.collected)}} ر.س</strong></div>
+</div>
+<div class="panel">
+<h3>آخر العقارات</h3>
+<table><thead><tr><th>#</th><th>العقار</th><th>المدينة</th><th>الحي</th><th>السعر</th><th>الحالة</th></tr></thead>
+<tbody>
+{% for r in recent %}
+<tr><td>{{r.id}}</td><td>{{r.title}}</td><td>{{r.city}}</td><td>{{r.district}}</td><td>{{"{:,.0f}".format(r.price or 0)}} ر.س</td><td><span class="badge">{{r.status}}</span></td></tr>
+{% else %}<tr><td colspan="6">لا توجد بيانات بعد</td></tr>{% endfor %}
+</tbody></table>
+</div>
+{% endblock %}

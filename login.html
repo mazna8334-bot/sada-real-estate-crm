@@ -1,0 +1,17 @@
+
+{% extends "base.html" %}
+{% block public %}
+<div class="login-page">
+<div class="login-card">
+<h1>سادة التطوير للعقارات</h1>
+<p>نظام إدارة المكتب العقاري</p>
+{% if error %}<div class="alert">{{ error }}</div>{% endif %}
+<form method="post">
+<label>اسم المستخدم</label><input name="username" value="admin">
+<label>كلمة المرور</label><input name="password" type="password" value="1234">
+<button>تسجيل الدخول</button>
+</form>
+<small>الدخول التجريبي: admin / 1234</small>
+</div>
+</div>
+{% endblock %}

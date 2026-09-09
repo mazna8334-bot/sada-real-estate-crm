@@ -1,0 +1,18 @@
+
+{% extends "base.html" %}{% block content %}
+<div class="top"><div><h2>العقارات</h2><p>إدارة العروض العقارية</p></div><button onclick="toggleModal('m3')">+ إضافة عقار</button></div>
+<div class="panel"><table><thead><tr><th>#</th><th>العقار</th><th>المالك</th><th>النوع</th><th>المدينة</th><th>الحي</th><th>المساحة</th><th>السعر</th><th>العرض</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody>
+{% for r in rows %}<tr><td>{{r.id}}</td><td>{{r.title}}</td><td>{{r.owner_name or '-'}}</td><td>{{r.type}}</td><td>{{r.city}}</td><td>{{r.district}}</td><td>{{r.area}}</td><td>{{"{:,.0f}".format(r.price or 0)}} ر.س</td><td>{{r.offer_type}}</td><td><span class="badge">{{r.status}}</span></td><td><form method="post" action="/delete/properties/{{r.id}}"><button class="danger">حذف</button></form></td></tr>
+{% else %}<tr><td colspan="11">لا توجد بيانات بعد</td></tr>{% endfor %}</tbody></table></div>
+<div id="m3" class="modal"><div class="modal-card"><div class="modal-head"><h3>إضافة عقار</h3><button onclick="toggleModal('m3')">×</button></div>
+<form method="post" action="/properties/add" class="form-grid">
+<label>اسم / وصف العقار</label><input name="title" required>
+<label>المالك</label><select name="owner_id"><option value="">بدون تحديد</option>{% for o in owners %}<option value="{{o.id}}">{{o.name}}</option>{% endfor %}</select>
+<label>نوع العقار</label><select name="type"><option>أرض</option><option>فيلا</option><option>شقة</option><option>مستودع</option><option>مصنع</option><option>محل</option></select>
+<label>المدينة</label><input name="city"><label>الحي</label><input name="district">
+<label>المساحة م²</label><input name="area" type="number"><label>السعر</label><input name="price" type="number">
+<label>نوع العرض</label><select name="offer_type"><option>بيع</option><option>إيجار</option></select>
+<label>الحالة</label><select name="status"><option>متاح</option><option>محجوز</option><option>مباع</option><option>مؤجر</option></select>
+<label>رابط الخرائط</label><input name="map_url"><label>ملاحظات</label><textarea name="notes"></textarea>
+<button class="full">حفظ العقار</button></form></div></div>
+{% endblock %}

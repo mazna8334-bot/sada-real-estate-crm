@@ -1,0 +1,12 @@
+
+{% extends "base.html" %}{% block content %}
+<div class="top"><div><h2>الملاك</h2><p>قاعدة بيانات الملاك</p></div><button onclick="toggleModal('m2')">+ إضافة مالك</button></div>
+<div class="panel"><table><thead><tr><th>#</th><th>الاسم</th><th>الجوال</th><th>المدينة</th><th>ملاحظات</th><th>إجراء</th></tr></thead><tbody>
+{% for r in rows %}<tr><td>{{r.id}}</td><td>{{r.name}}</td><td>{{r.phone}}</td><td>{{r.city}}</td><td>{{r.notes}}</td><td><form method="post" action="/delete/owners/{{r.id}}"><button class="danger">حذف</button></form></td></tr>
+{% else %}<tr><td colspan="6">لا توجد بيانات بعد</td></tr>{% endfor %}</tbody></table></div>
+<div id="m2" class="modal"><div class="modal-card"><div class="modal-head"><h3>إضافة مالك</h3><button onclick="toggleModal('m2')">×</button></div>
+<form method="post" action="/owners/add" class="form-grid">
+<label>اسم المالك</label><input name="name" required><label>رقم الجوال</label><input name="phone">
+<label>المدينة</label><input name="city"><label>ملاحظات</label><textarea name="notes"></textarea>
+<button class="full">حفظ المالك</button></form></div></div>
+{% endblock %}

@@ -1,0 +1,16 @@
+
+{% extends "base.html" %}{% block content %}
+<div class="top"><div><h2>الطلبات</h2><p>طلبات العملاء واحتياجاتهم</p></div><button onclick="toggleModal('m4')">+ إضافة طلب</button></div>
+<div class="panel"><table><thead><tr><th>#</th><th>العميل</th><th>نوع الطلب</th><th>نوع العقار</th><th>المدينة</th><th>الحي</th><th>الميزانية</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody>
+{% for r in rows %}<tr><td>{{r.id}}</td><td>{{r.client_name}}</td><td>{{r.request_type}}</td><td>{{r.property_type}}</td><td>{{r.city}}</td><td>{{r.district}}</td><td>{{"{:,.0f}".format(r.budget or 0)}} ر.س</td><td><span class="badge">{{r.status}}</span></td><td><form method="post" action="/delete/requests/{{r.id}}"><button class="danger">حذف</button></form></td></tr>
+{% else %}<tr><td colspan="9">لا توجد بيانات بعد</td></tr>{% endfor %}</tbody></table></div>
+<div id="m4" class="modal"><div class="modal-card"><div class="modal-head"><h3>إضافة طلب</h3><button onclick="toggleModal('m4')">×</button></div>
+<form method="post" action="/requests/add" class="form-grid">
+<label>العميل</label><select name="client_id">{% for c in clients %}<option value="{{c.id}}">{{c.name}}</option>{% endfor %}</select>
+<label>نوع الطلب</label><select name="request_type"><option>شراء</option><option>استئجار</option><option>استثمار</option></select>
+<label>نوع العقار</label><select name="property_type"><option>أرض</option><option>فيلا</option><option>شقة</option><option>مستودع</option><option>مصنع</option><option>محل</option></select>
+<label>المدينة</label><input name="city"><label>الحي</label><input name="district">
+<label>الميزانية</label><input name="budget" type="number"><label>التفاصيل</label><textarea name="details"></textarea>
+<label>الحالة</label><select name="status"><option>جديد</option><option>قيد البحث</option><option>تم إرسال خيارات</option><option>تفاوض</option><option>مغلق</option></select>
+<button class="full">حفظ الطلب</button></form></div></div>
+{% endblock %}

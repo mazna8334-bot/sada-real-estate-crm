@@ -1,0 +1,14 @@
+
+{% extends "base.html" %}{% block content %}
+<div class="top"><div><h2>العملاء</h2><p>قاعدة بيانات العملاء</p></div><button onclick="toggleModal('m1')">+ إضافة عميل</button></div>
+<div class="panel"><table><thead><tr><th>#</th><th>الاسم</th><th>الجوال</th><th>النوع</th><th>المدينة</th><th>الحي</th><th>الاهتمام</th><th>الميزانية</th><th>الحالة</th><th>إجراء</th></tr></thead><tbody>
+{% for r in rows %}<tr><td>{{r.id}}</td><td>{{r.name}}</td><td>{{r.phone}}</td><td>{{r.type}}</td><td>{{r.city}}</td><td>{{r.district}}</td><td>{{r.interest}}</td><td>{{"{:,.0f}".format(r.budget or 0)}} ر.س</td><td><span class="badge">{{r.status}}</span></td><td><form method="post" action="/delete/clients/{{r.id}}"><button class="danger">حذف</button></form></td></tr>
+{% else %}<tr><td colspan="10">لا توجد بيانات بعد</td></tr>{% endfor %}</tbody></table></div>
+<div id="m1" class="modal"><div class="modal-card"><div class="modal-head"><h3>إضافة عميل</h3><button onclick="toggleModal('m1')">×</button></div>
+<form method="post" action="/clients/add" class="form-grid">
+<label>اسم العميل</label><input name="name" required><label>رقم الجوال</label><input name="phone">
+<label>نوع العميل</label><select name="type"><option>مشتري</option><option>مستأجر</option><option>مالك</option><option>مستثمر</option></select>
+<label>المدينة</label><input name="city"><label>الحي</label><input name="district"><label>الاهتمام</label><input name="interest">
+<label>الميزانية</label><input name="budget" type="number"><label>الحالة</label><select name="status"><option>جديد</option><option>نشط</option><option>متابعة</option><option>مغلق</option></select>
+<button class="full">حفظ العميل</button></form></div></div>
+{% endblock %}

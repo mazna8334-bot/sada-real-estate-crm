@@ -1,0 +1,16 @@
+
+{% extends "base.html" %}{% block content %}
+<div class="top"><div><h2>الصفقات</h2><p>إدارة الصفقات والعمولات</p></div><button onclick="toggleModal('m5')">+ إضافة صفقة</button></div>
+<div class="panel"><table><thead><tr><th>#</th><th>العميل</th><th>العقار</th><th>النوع</th><th>القيمة</th><th>العمولة %</th><th>العمولة</th><th>المرحلة</th><th>المحصّل</th><th>إجراء</th></tr></thead><tbody>
+{% for r in rows %}<tr><td>{{r.id}}</td><td>{{r.client_name}}</td><td>{{r.property_title}}</td><td>{{r.deal_type}}</td><td>{{"{:,.0f}".format(r.amount or 0)}} ر.س</td><td>{{r.commission_percent}}</td><td>{{"{:,.0f}".format(r.commission_amount or 0)}} ر.س</td><td><span class="badge">{{r.stage}}</span></td><td>{{"{:,.0f}".format(r.collected or 0)}} ر.س</td><td><form method="post" action="/delete/deals/{{r.id}}"><button class="danger">حذف</button></form></td></tr>
+{% else %}<tr><td colspan="10">لا توجد بيانات بعد</td></tr>{% endfor %}</tbody></table></div>
+<div id="m5" class="modal"><div class="modal-card"><div class="modal-head"><h3>إضافة صفقة</h3><button onclick="toggleModal('m5')">×</button></div>
+<form method="post" action="/deals/add" class="form-grid">
+<label>العميل</label><select name="client_id">{% for c in clients %}<option value="{{c.id}}">{{c.name}}</option>{% endfor %}</select>
+<label>العقار</label><select name="property_id">{% for p in properties %}<option value="{{p.id}}">{{p.title}}</option>{% endfor %}</select>
+<label>نوع الصفقة</label><select name="deal_type"><option>بيع</option><option>إيجار</option></select>
+<label>قيمة الصفقة</label><input name="amount" type="number"><label>نسبة العمولة %</label><input name="commission_percent" type="number" step="0.01">
+<label>المرحلة</label><select name="stage"><option>استفسار</option><option>عرض عقار</option><option>تفاوض</option><option>عقد</option><option>مغلقة - ناجحة</option><option>مغلقة - غير ناجحة</option></select>
+<label>المبلغ المحصل</label><input name="collected" type="number">
+<button class="full">حفظ الصفقة</button></form></div></div>
+{% endblock %}
